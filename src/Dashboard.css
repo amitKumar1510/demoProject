@@ -1,0 +1,30 @@
+
+.dboard__onpoll{
+  background: rgb(131,58,180);
+  background: linear-gradient(190deg, rgba(131,58,180,1) 0%, rgba(198,29,253,1) 25%, rgba(221,211,92,1) 57%, rgba(252,176,69,1) 100%);
+  height:100%;
+  width:100%;
+}
+.dboard__header{
+  display:flex;
+  justify-content:start;
+  flex-wrap:none;
+  heighi:100px;
+  width:100%;
+/*   background-color:#626293; */
+  background: #56CCF2;
+  background: -webkit-linear-gradient(to right, #2F80ED, #56CCF2);   
+  border-radius:10px;
+}
+.dboard__img{
+  height:100px ;
+  width:100px;
+  padding:10px 30px;
+ 
+}
+.dboard__header__name{
+  padding:20px 40px;
+}
+.dboard__header__roll{
+  padding:20px 40px;
+}

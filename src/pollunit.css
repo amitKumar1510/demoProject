@@ -1,0 +1,18 @@
+.pollunit__maindiv{
+  background-color:#8a8abc;
+  height:100%;
+  width:auto;
+  padding-inline:50px;
+  border-radius:10px;
+}
+.pollunit__maindiv:hover{
+  border: 3px solid rgb(131,58,180);
+  color:white;
+}
+
+.pollunit__p1{
+  padding:20px 0 0 0 ;
+}
+.pollunit__p4{
+   padding-bottom: 20px;
+}
