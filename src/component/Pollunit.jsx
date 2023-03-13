@@ -1,7 +1,7 @@
 import React from "react";
 import pollunit from "../pollunit.css"
 export default function Pollunit(props){
-        console.log(props.poll)
+        //console.log(props.poll)
 
     return <div className="pollunit__maindiv">
 
@@ -10,7 +10,7 @@ export default function Pollunit(props){
         </p>
       
          <p className="pollunit__p2">
-           poll Id : {props.poll.pid}
+           Poll Id : {props.poll.pid}
          </p>
       
         <p className="pollunit__p3">

@@ -7,14 +7,22 @@ export default function Info(){
   return <div className="home">
 
     <div className="info__inner__div">
-     <Link
+    
+       <Link
+       to={`/results`} 
+       id="info__result__link">
+       <div className="info__result">
+         Results
+       </div>
+     </Link>
+  
+       <Link
        to={`/login`} 
        id="info__link">
        <div className="info__login">
          Login
        </div>
      </Link>
-    <br/>
 
   </div>
         <img 

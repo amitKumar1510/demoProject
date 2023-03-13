@@ -4,9 +4,10 @@
   width:auto;
   padding-inline:50px;
   border-radius:10px;
+  cursor:pointer;
 }
 .pollunit__maindiv:hover{
-  border: 3px solid rgb(131,58,180);
+  border: 2px solid rgb(131,58,180);
   color:white;
 }
 
