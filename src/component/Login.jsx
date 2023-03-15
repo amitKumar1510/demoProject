@@ -21,6 +21,9 @@ console.log(verify);
         setVerify(true);
        // console.log("ok");
         setMobno( docSnap.data().mobno);
+         if(docSnap.data().mobno){
+  document.querySelector("#login__btn1").style.backgroundColor = "green";
+        }
       } else {
         console.log("Your data is not available please contact to admin");
       }
@@ -54,6 +57,9 @@ console.log(verify);
     await signInWithPhoneNumber(auth,mobno, appverifier).then(result => {
       window.result = result;
       console.log(window.result)
+       if(window.result){
+  document.querySelector("#login__btn_otp").style.backgroundColor = "green";
+        }
     }).catch(error => {
         if(error){
             //setTimeout("location.reload(true);",1);

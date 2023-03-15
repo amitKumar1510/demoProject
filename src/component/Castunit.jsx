@@ -28,7 +28,7 @@ export default function Castunit(props){
       Candidate-agenda
     </a>
 
-    <div className="castunit__btn" onClick={()=>handleClick()}>
+    <div className="castunit__btn" onClick={()=>{handleClick();props.setClickedCandidate(props.candidate.cp_id)}}>
       Select
     </div>
   </div>

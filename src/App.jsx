@@ -1,7 +1,9 @@
 
 import Info from "../src/component/Info.jsx";
 import Login from "../src/component/Login.jsx";
-import Results from "./component/Results"
+import Results from "./component/Results";
+import Test from "./component/Test";
+
 import React from 'react'
 import {
   BrowserRouter as Router,
@@ -19,6 +21,7 @@ export default function App() {
           <Route path="/login" element={ <Login />}/>
            <Route path="/dashboard" element={ <Dashboard />}/>
           <Route path="/results" element={ <Results />}/>
+          <Route path="/test" element={ <Test />}/>
           <Route path="/" element={ <Info />}/>
           
         </Routes>

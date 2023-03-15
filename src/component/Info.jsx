@@ -29,7 +29,7 @@ export default function Info(){
           src="../public/voting.jpg" className="Info__img">
         </img>
     
-
+<a href="admin.html"><h3>Log in as Admin</h3></a>
     </div>
 }
 

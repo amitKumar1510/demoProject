@@ -1,6 +1,6 @@
 import React from "react";
 import Dashboard from "../Dashboard.css"
-import { getDoc, getDocs, collection, where, query, doc, onSnapshot,addDoc } from "firebase/firestore";
+import { getDoc, getDocs, collection, where, query, doc, onSnapshot,addDoc,updateDoc, arrayUnion,increment  } from "firebase/firestore";
 import { db } from "../firebase";
 import Pollunit from "./Pollunit"
 import Castunit from "./Castunit"
@@ -31,6 +31,8 @@ export default function() {
     }]
   })
 
+  const[voterslist,setVoterslist]=React.useState([""]);
+  
   const [isClicked,setIsClicked]=React.useState(false);
   const [confirmDetails,setConfirmDetails]=React.useState({
     candidateId:"",
@@ -42,6 +44,7 @@ export default function() {
 const [clickedPoll,setClickedPoll] = React.useState("");
 const [clickedCandidate,setClickedCandidate] = React.useState("");
 console.log(clickedPoll);
+  console.log(clickedCandidate);
   
 const navigateTo=useNavigate();
   
@@ -86,6 +89,27 @@ const candidateDet=async(pid)=>{
       }));
     }
 };
+//function for voterId check already voted or not
+ const voterIdAvil = async () => {
+     const ref = doc(db, `results/FpOlz9X6c4L6LuGhKqxv/${clickedPoll}/voterslist`);  
+await getDoc(ref).then(docSnap => {
+      if (docSnap.exists()) {
+       
+        console.log( docSnap.data().list);
+        // setVoterslist( docSnap.data().list);
+        if(user.voterid === "" || docSnap.data().list.includes(user.voterid)){
+          alert("Error")
+        }
+        else{
+          
+          Submitvote();
+          
+        }
+      }
+      })
+}
+  console.log(voterslist);
+  //
   //function for voterid input
  const handleChange = (e) => {
     const { name, value } = e.target
@@ -98,18 +122,30 @@ const candidateDet=async(pid)=>{
   }
 console.log(user);
 //function to submit vote
- //   const Submitvote =async()=>{ await
- //      addDoc(collection(db, "/result" + "/"+pid + "/"+ cid +"/"+user));
- //    console.log("done")
- // }
+   const Submitvote =async()=>{ 
+      const ref = doc(db, `results/FpOlz9X6c4L6LuGhKqxv/${clickedPoll}/${clickedCandidate}`);
+     const ref1 = doc(db, `results/FpOlz9X6c4L6LuGhKqxv/${clickedPoll}`,"voterslist");
+// Atomically add a new region to the "regions" array field.
+await updateDoc(ref, {
+    count:increment(1),
+    voterslist: arrayUnion(user.voterid)
+});
+     await updateDoc(ref1, {
+   
+  list:arrayUnion(user.voterid)
+});
+    console.log("done");
+      navigateTo("/");
+ }
   function goToPrevPage() {
   setIsClicked(false);
     window.location.reload(false);
   }
- function lastfunction(){
-   alert("Vote Submitted Successfully");
-   navigateTo("/");
- } 
+  
+ // function lastfunction(){
+ //   alert("Vote Submitted Successfully");
+ //   navigateTo("/");
+ // } 
 
   return (<>
     <div className="dboard__onpoll">
@@ -142,7 +178,7 @@ console.log(user);
           value={user.voterid}
           />
            <br/> <br/>
-        <button onClick={lastfunction}>Submit</button>
+      <button onClick={()=>{voterIdAvil(); }}>Submit</button>
       </div>
         
         :!isClicked?<>
@@ -158,7 +194,7 @@ console.log(user);
       </div>
 
     
-        </> :<div> {Object.values(candidate).map((val) => ( val[0].cp_name==""?"":<Castunit key={val[0].cp_id} candidate={val[0]} confirmation={setConfirmDetails}/>))}
+        </> :<div> {Object.values(candidate).map((val) => ( val[0].cp_name==""?"":<Castunit key={val[0].cp_id} candidate={val[0]} confirmation={setConfirmDetails} setClickedCandidate={setClickedCandidate}/>))}
                                                       
        <p onClick={goToPrevPage}
          className="dboard__prev_page">

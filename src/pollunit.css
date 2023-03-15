@@ -1,10 +1,10 @@
 .pollunit__maindiv{
-  background-color:#8a8abc;
   height:100%;
   width:auto;
   padding-inline:50px;
   border-radius:10px;
   cursor:pointer;
+   background-color:#e2bdef;
 }
 .pollunit__maindiv:hover{
   border: 2px solid rgb(131,58,180);
