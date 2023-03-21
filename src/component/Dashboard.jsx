@@ -172,7 +172,7 @@ await updateDoc(ref, {
  // } 
   
 //condition to be copied later props.mainprop.isLoggedin or true
-  return (<> {props.mainprop.isLoggedin?<div>
+  return (<> {true?<div>
     <div className="dboard__onpoll">
       <div className="dboard__header">
 

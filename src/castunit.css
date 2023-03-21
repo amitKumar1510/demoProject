@@ -14,9 +14,10 @@
 .castunit__img{
   width:100px;
   height:100px;
-  background-color:blue;
-  border-radius:50%;
+/*   background-color:blue; */
+  border-radius:0%;
   display:inline-block;
+  
 
 }
 .castunit__cdet{
