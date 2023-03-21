@@ -23,3 +23,13 @@
   margin-left:30%;
   margin-top:-13%;
 }
+@media (min-width:350px) and (max-width:500px){
+  
+  .resultunit__img{
+    margin-left:18%;
+  }
+  .resultunit__details{
+    margin-left:0%;
+    margin-top:1%;
+  }
+}

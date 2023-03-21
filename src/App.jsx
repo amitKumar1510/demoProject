@@ -13,13 +13,22 @@ import {
 import Dashboard from "../src/component/Dashboard.jsx";
 
 export default function App() {
+
+const [ralt,setRalt]=React.useState({
+  "isLoggedin":false,
+  "lgid":"",
+  "name":"",
+  "roll":"",
+  "dept":""
+})
+  
   return (
     <main>
      <Router>
       <div>
         <Routes>
-          <Route path="/login" element={ <Login />}/>
-           <Route path="/dashboard" element={ <Dashboard />}/>
+          <Route path="/login" element={ <Login mainprop={setRalt} />}/>
+           <Route path="/dashboard" element={ <Dashboard mainprop={ralt}/>}/>
           <Route path="/results" element={ <Results />}/>
           <Route path="/test" element={ <Test />}/>
           <Route path="/" element={ <Info />}/>

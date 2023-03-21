@@ -11,7 +11,7 @@ export default function Castunit(props){
   }))};
 
   return <div className="castunit__maindiv">
-    
+   <div className="casunit__div2">
     <img className="castunit__img"
       src={props.candidate.cp_pic}
     />
@@ -32,6 +32,7 @@ export default function Castunit(props){
       Select
     </div>
   </div>
+     </div>
   </div>
  
 }

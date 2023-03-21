@@ -3,16 +3,14 @@ import castunit from "../Result.css";
 import { getDoc, getDocs, collection, where, query, doc, onSnapshot, addDoc, updateDoc, arrayUnion, increment } from "firebase/firestore";
 import { db } from "../firebase";
 import Resultunit from "./Resultunit";
+import {useNavigate} from "react-router-dom"
+
+
+
+
 export default function Results() {
 
-  // React.useEffect(() => {
-  //     const interval = setInterval(() => {
-  //       window.location.reload();
-  //     }, 10000); // 60000 milliseconds = 1 minute //10s
-
-  //     return () => clearInterval(interval);
-  //   }, []);
-
+  
   
   const [poll, setPoll] = React.useState({
     "dummy": [{
@@ -31,6 +29,8 @@ export default function Results() {
   const [isClicked, setIsClicked] = React.useState(false)
   const [passPid, setPassPid] = React.useState("")
 
+const navigateTo=useNavigate();
+  
   const fetchPolls = async () => {
     const querySnapshot = await getDocs(collection(db, "polls"));
     for (const doc of querySnapshot.docs) {
@@ -65,6 +65,10 @@ export default function Results() {
     }
   };
 
+const goBack=()=>{
+        window.location.reload();
+  // document.querySelector("#goback").style.visibility = "hidden";
+    }
 
   // function handleCandidateResult(id){
 
@@ -77,7 +81,7 @@ export default function Results() {
     <div >
       {!isClicked ? <div className="result__main_div">
         {Object.values(poll).map((val) => (
-          val[0].pname == "" ? "" : <div className="result__div2" onClick={() => { handleCandidateResult(val[0].pid); setPassPid(val[0].pid) }}>Poll Name : {val[0].pname} <br/> <br/>Poll Id : {val[0].pid}<br/><br/> Click to check Result
+          val[0].pname == "" ? "" : <div className="result__div2" onClick={() => { handleCandidateResult(val[0].pid); setPassPid(val[0].pid) }}>Poll Name : {val[0].pname} <br/> <br/>Poll Id : {val[0].pid}<br/><br/> <p id="p__result">Click to check Result</p>
           </div>
         ))}
       </div>
@@ -88,6 +92,8 @@ export default function Results() {
         </div>
       }
     </div>
+    <div onClick={goBack} id="goback"> Go back</div><br/>
+      <div onClick={()=>{navigateTo("/")}}id="gotoinfo"> Go back to Info</div>
   </>
 }
 //val[0].cp_id

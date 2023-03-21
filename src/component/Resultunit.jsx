@@ -20,9 +20,21 @@ await getDoc(ref).then(docSnap => {
       }
       })
 }
- React.useEffect(()=>{
+  React.useEffect(() => {
+  
    fetchCount();
- },[]) 
+}, [0])
+  
+  // below code is used for refrest the count in every 20 seconds
+  
+//  const MINUTE_MS = 20000;
+// React.useEffect(() => {
+//   const interval = setInterval(() => {
+//    fetchCount();
+//   }, MINUTE_MS);
+
+//   return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
+// }, [])
  return <>
   <div className="resultunit__main_div">
     
@@ -37,5 +49,6 @@ await getDoc(ref).then(docSnap => {
     </div>
    </div>
   </div> 
+  
   </>
 }

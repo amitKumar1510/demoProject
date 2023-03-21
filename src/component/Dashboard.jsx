@@ -6,7 +6,8 @@ import Pollunit from "./Pollunit"
 import Castunit from "./Castunit"
 import {useNavigate} from "react-router-dom"
 
-export default function() {
+export default function(props) {
+  console.log(props.mainprop)
   const[user,setUser]=React.useState({
     "voterid":""
   })
@@ -45,10 +46,11 @@ const [clickedPoll,setClickedPoll] = React.useState("");
 const [clickedCandidate,setClickedCandidate] = React.useState("");
 console.log(clickedPoll);
   console.log(clickedCandidate);
-  
+ const[clickedeligibility,setClickedEligibility]=React.useState("");
+  console.log(clickedeligibility);
 const navigateTo=useNavigate();
   
-  
+  //function for retriving current ongoing polls
   const fetchPolls = async () => {
     const querySnapshot = await getDocs(collection(db, "polls"));
     for (const doc of querySnapshot.docs) {
@@ -72,7 +74,7 @@ const navigateTo=useNavigate();
   React.useEffect(() => {
     fetchPolls();
   }, [0])
-
+//function for retriving candidate data
 const candidateDet=async(pid)=>{
   setIsClicked(true);
    const querySnapshot = await getDocs(collection(db, `candidates_details/${pid}/cd`));
@@ -89,6 +91,23 @@ const candidateDet=async(pid)=>{
       }));
     }
 };
+//voterid write or wrong, and it will match with current login user voterid
+const handleClick=()=>{
+  document.querySelector("#poll__submin_btn").style.visibility = "hidden";
+  if(props.mainprop.lgid === user.voterid)
+  {
+    voterIdAvil();
+  }
+  else{
+    alert("wrong voter id, try again");
+    setUser({
+      voterid:""
+    })
+    document.querySelector("#poll__submin_btn").style.visibility = "visible";
+  }
+}
+
+  
 //function for voterId check already voted or not
  const voterIdAvil = async () => {
      const ref = doc(db, `results/FpOlz9X6c4L6LuGhKqxv/${clickedPoll}/voterslist`);  
@@ -98,7 +117,8 @@ await getDoc(ref).then(docSnap => {
         console.log( docSnap.data().list);
         // setVoterslist( docSnap.data().list);
         if(user.voterid === "" || docSnap.data().list.includes(user.voterid)){
-          alert("Error")
+          alert("Error");
+          document.querySelector("#poll__submin_btn").style.visibility = "visible";
         }
         else{
           
@@ -121,7 +141,7 @@ await getDoc(ref).then(docSnap => {
     })
   }
 console.log(user);
-//function to submit vote
+//function to submit vote and  count vote
    const Submitvote =async()=>{ 
       const ref = doc(db, `results/FpOlz9X6c4L6LuGhKqxv/${clickedPoll}/${clickedCandidate}`);
      const ref1 = doc(db, `results/FpOlz9X6c4L6LuGhKqxv/${clickedPoll}`,"voterslist");
@@ -135,8 +155,12 @@ await updateDoc(ref, {
   list:arrayUnion(user.voterid)
 });
     console.log("done");
-      navigateTo("/");
+     setUser({
+      voterid:""
+    })
+      navigateTo("/results");
  }
+  // function goto privious page
   function goToPrevPage() {
   setIsClicked(false);
     window.location.reload(false);
@@ -146,8 +170,9 @@ await updateDoc(ref, {
  //   alert("Vote Submitted Successfully");
  //   navigateTo("/");
  // } 
-
-  return (<>
+  
+//condition to be copied later props.mainprop.isLoggedin or true
+  return (<> {props.mainprop.isLoggedin?<div>
     <div className="dboard__onpoll">
       <div className="dboard__header">
 
@@ -156,19 +181,21 @@ await updateDoc(ref, {
         />
 
         <p className="dboard__header__name">
-          Hi...<br /> Adarsh Kumar Dash
+          Hi...<br /> {props.mainprop.name}
         </p>
 
         <p className="dboard__header__roll">
-          Enroll No : 20/04/DCS/03
+          Enroll No : {props.mainprop.roll}
         </p>
 
       </div>
       </div>
 {/*     voterid entered by user code here */}
-      {confirmDetails.confirm?<div> confirmation page<br/>
-      <h2>You are voting for {confirmDetails.candidateName}</h2>
-        Enter your voterid in given input box for submit your vote
+  {confirmDetails.confirm?<div className="dashboard__conf_maindiv" ><div> <br/>
+    {props.mainprop.dept===clickedeligibility||clickedeligibility==="all" ?<div>
+    
+      <h2>You are voting for <h1>{confirmDetails.candidateName}</h1></h2>
+        <h2> Enter your voterid in given input box for submit your vote</h2>
         <br/> <br/>
         <input type="text" 
           id="voterid"
@@ -178,9 +205,17 @@ await updateDoc(ref, {
           value={user.voterid}
           />
            <br/> <br/>
-      <button onClick={()=>{voterIdAvil(); }}>Submit</button>
+      <button id="poll__submin_btn"onClick={handleClick}>Submit</button>
       </div>
-        
+    :<div>
+      <h1>Sorry....</h1>
+      <h2>You are not eligible for this vote</h2> 
+      <h2> <br/>Because,Poll belongs to {clickedeligibility} department</h2>
+    </div>
+    }
+      </div>
+        </div>
+
         :!isClicked?<>
           
       <div className="dboard__ongpoll">
@@ -188,7 +223,7 @@ await updateDoc(ref, {
       </div>
 
       <div> {Object.values(poll).map((val) => (
-           val[0].pname==""?"":<div onClick={()=>{candidateDet(val[0].pid);setClickedPoll(val[0].pid)}}><Pollunit key={val[0].pid} poll={val[0]} /></div>
+           val[0].pname==""?"":<div onClick={()=>{candidateDet(val[0].pid);setClickedPoll(val[0].pid);setClickedEligibility(val[0].eligibility)}}><Pollunit key={val[0].pid} poll={val[0]} /></div>
         
       ))}
       </div>
@@ -201,7 +236,11 @@ await updateDoc(ref, {
          Previous Page
        </p>
     </div>
+        
       }
+    </div>
+   :<div>Oops you are not logged in <div onClick={navigateTo("/login")}>log in now</div></div> }
+    
   </>
   )
 }

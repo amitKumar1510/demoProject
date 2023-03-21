@@ -6,7 +6,7 @@ import { getDoc, getDocs, collection, where, query, doc } from "firebase/firesto
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
-export default function Login() {
+export default function Login(props) {
   const [verify, setVerify] = React.useState(false);
   const[mobno,setMobno]=React.useState();
 console.log(mobno);
@@ -21,6 +21,14 @@ console.log(verify);
         setVerify(true);
        // console.log("ok");
         setMobno( docSnap.data().mobno);
+      props.mainprop((prev)=>{
+        return ({...prev,
+          "lgid":docSnap.data().voterid,
+          "name":docSnap.data().name,
+          "roll":docSnap.data().enroll,
+           "dept":docSnap.data().dept_code    
+                })
+      })
          if(docSnap.data().mobno){
   document.querySelector("#login__btn1").style.backgroundColor = "green";
         }
@@ -85,7 +93,11 @@ console.log(verify);
       const user = result.user;
       console.log(user);
       if(user){
-  navigateTo("/dashboard")
+   props.mainprop((prev)=>{
+     return ({...prev,
+            "isLoggedin":true})
+   })     
+  navigateTo("/dashboard");
 }
       // ...
     }).catch((error) => {
@@ -156,12 +168,6 @@ console.log(verify);
   </div>
   );
 }
-
-
-
-
-
-
 
 
 
